@@ -36,10 +36,13 @@ class JuegoAzar:
                 print("El número de tu contrincante es menor. ¡Sigue intentando!")
 
     def limpiar_pantalla(self):
-        if platform.system() == 'Windows':
-            os.system('cls')
-        else:
-            os.system('clear')
+        clear_screen()
+
+def clear_screen():
+    if platform.system() == 'Windows':
+        os.system('cls')
+    else:
+        os.system('clear')
 
 class Menu:
     def __init__(self):
