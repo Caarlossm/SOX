@@ -2,6 +2,7 @@ import random
 import os
 import platform
 
+
 class Jugador:
     def __init__(self, nombre):
         self.nombre = nombre
@@ -24,11 +25,11 @@ class JuegoAzar:
         while True:
             self.limpiar_pantalla()
             print(f"Intentos realizados: {intentos}")
-            intento = int(input("Adivina el número de tu contrincante: "))
+            intento = int(input("Intenta adivinar el número de tu contrincante: "))
             intentos += 1
 
             if intento == self.numero_contrincante:
-                print(f"¡Felicidades, {self.nombre_jugador}! Has adivinado el número en {intentos} intentos.")
+                print(f"¡Felicidades, {self.nombre_jugador}! Adivinaste el número en {intentos} intentos.")
                 return intentos
             elif intento < self.numero_contrincante:
                 print("El número de tu contrincante es mayor. ¡Sigue intentando!")
@@ -47,7 +48,13 @@ def clear_screen():
 class Menu:
     def __init__(self):
         self.jugadores = []
-        self.ranking_file_path = os.path.join(os.path.expanduser('~'), 'Desktop', 'rankingpuntuacion.txt')
+        desktop_path = os.path.join(os.path.expanduser('~'), 'Desktop')
+        escritorio_path = os.path.join(os.path.expanduser('~'), 'Escritorio')
+
+        # Determina la ubicación del archivo de ranking según el idioma del sistema
+        
+        self.ranking_file_path = os.path.join(desktop_path, 'rankingpuntuacion.txt') \
+            if os.path.exists(desktop_path) else os.path.join(escritorio_path, 'rankingpuntuacion.txt')
 
     def mostrar_menu(self):
         print("\n==== Menú ====")
@@ -56,7 +63,7 @@ class Menu:
         print("3. Salir")
 
     def jugar(self):
-        nombre_jugador = input("Ingresa tu nombre de jugador: ")
+        nombre_jugador = input("Ingresa tu nombre: ")
         juego = JuegoAzar()
         intentos = juego.iniciar_juego(nombre_jugador)
         self.actualizar_ranking(nombre_jugador, intentos)
@@ -87,7 +94,7 @@ class Menu:
 
     def cargar_ranking(self):
         if not os.path.exists(self.ranking_file_path):
-            with open(self.ranking_file_path, 'w') as file:
+            with open(self.ranking_file_path, 'w'):
                 pass
 
         with open(self.ranking_file_path, 'r') as file:
@@ -122,3 +129,4 @@ class Menu:
 
 menu = Menu()
 menu.ejecutar_menu()
+
